@@ -5,7 +5,7 @@ date:   2014-04-02 00:32:08
 categories:
 ---
 
-The [TMS570 USB Kit][TMS570USB]($79) is an affordable development kit for the [TMS570][TMS570] microcontroller from TI (Texas Instruments) with dual [Cortex-R4][CortexR4] cores — the deeply embedded real-time processor based on the [ARMv7-R][ARMv7R] architecture.  In the past I’ve worked with Cortex-A and Cortex-M cores, but this will be my first project with the R series.
+The [TMS570 USB Kit][TMS570USB] ($79) is an affordable development kit for the [TMS570][TMS570] microcontroller from TI (Texas Instruments) with dual [Cortex-R4][CortexR4] cores — the deeply embedded real-time processor based on the [ARMv7-R][ARMv7R] architecture.  In the past I’ve worked with Cortex-A and Cortex-M cores, but this will be my first project with the R series.
 
 My first goal is to get through the steps in [TMS570LS Getting Started][TMS570LSGettingStarted] using open source software tools.  This rules out TI’s [Code Composer Studio][CodeComposerStudio], which is usually used to interface to these chips.
 
@@ -47,6 +47,12 @@ The software to control the JTAG connection will be [OpenOCD][OpenOCD].  Basic i
 My first shot at a config file is up on [github][config file], as well as a simple script to test it.  It uses the existing configs for the FT2232 and the TMS570, but generates some errors.
 
 [config file]: https://github.com/machinaut/tms570
+
+### UPDATE: Config File
+This config setup now works and is uploaded as a [patch][patch] to the [OpenOCD Gerrit instance][OpenOCD gerrit].
+
+[patch]: http://openocd.zylin.com/#/c/2089/
+[OpenOCD Gerrit]: http://openocd.zylin.com/
 
 ## To Be Continued
 I’ll try to keep on documenting my progress in these posts.  Hopefully the progression will be JTAG -> Programming -> Software Development.
