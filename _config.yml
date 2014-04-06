@@ -4,9 +4,9 @@ permalink: /posts/:title
 rdiscount:
   extensions: [smart]
 
-name: Zach Holman
-url: http://zachholman.com
-description: A fantastic blog that is fantastic.
-twitter: holman
-github: holman
-gravatar_url: http://gravatar.com/avatar/6f63cde8b16b035280ca615f621a6c8c
+name: Alex Ray
+url: http://machinaut.com
+description: Circuit Hacking, Operating Systems, Motorcycles, Stuff
+twitter: machinaut
+github: machinaut
+gravatar_url: http://gravatar.com/avatar/846948339f3f2809a07430997120c1e7
