@@ -1,0 +1,161 @@
+# Getting started with HackRF
+
+This is just my log of how I got `gnuradio` setup on my Mac for use with the
+(super awesome) HackRF One software defined radio.
+
+These are meant to be brief instructions.  If at any point you find you need to
+install new prerequisite software, do not be surprised if you have to start over
+again (building `gnuradio`, then `hackrf` then `gr-osmosdr`).
+
+Feel free to send me improvements for this, or ask questions (i'm `@machinaut`
+on twitter) and I'll do my best to answer.
+
+### X11 requirement
+
+This software requires X11 for some GUI functionality.  I use
+[XQuartz](http://xquartz.macosforge.org/landing/) to provide this.  Install it
+before you get started.
+
+## Homebrew packages 
+
+I found I needed to install quite a few packages to build everything I needed:
+
+    brew install boost doxygen fftw qt4 pyqt qwt pyqwt swig cmake wxpython
+
+Also I found issues when using the homebrew python that were fixed by going back
+to my system python install.  Not required, but maybe give it a shot if your
+python seems to be going weird.
+
+    brew uninstall python
+
+## Gnuradio build and install
+
+The first package to build is gnuradio.  Check it out via `git`.
+
+    git clone http://git.gnuradio.org/git/gnuradio.git
+    cd gnuradio
+
+We build in a subdirectory of the checked out directory.
+
+    mkdir build
+    cd build
+
+`cmake` is the build tool that makes the magic happen.  This step may fail if
+you're missing some prereqs.  Closely look for what it needs, and install that
+via `brew install` if possible (also send me a note and I'll update this!)
+
+    cmake .. -DENABLE_GR_ANALOG=ON -DENABLE_GR_FFT=ON -DENABLE_GR_FILTER=ON \
+    -DENABLE_GR_UHD=ON -DENABLE_GR_QTGUI=ON -DENABLE_VOLK=ON -DENABLE_GR_WXGUI=ON
+
+After you get prerequisites sorted out and successfully run cmake, then it's
+time to build and install. (The test line is optional, but useful for
+double-checking you built things right)
+
+    make
+    make test
+    sudo make install
+
+Now you *should* have built and installed the swig bindings for gnuradio as
+well, and you can check this by opening up `build/install_manifest.txt` and
+verifying installed files like `gnuradio.i` are installed where they belong.
+Probably `/usr/local/include/gnuradio/swig/gnuradio.i` (or at least it is on my
+machine).
+
+## libhackrf
+
+The second package we build and install is `libhackrf`.  First step is again
+checkout the repo.
+
+    git clone https://github.com/mossmann/hackrf.git
+    cd hackrf/host
+
+This project has different subprojects, we're interested in the `host`
+subproject, which contains `libhackrf` as well as some useful utilities.
+
+As with the last project, we setup a build directory and run `cmake` to
+configure the build.
+
+    mkdir build
+    cd build
+    cmake ..
+
+Then build the same as before (no test).
+
+    make
+    sudo make install
+
+And you can checkout if your install works, and that you can talk to your HackRF
+by plugging the HackRF into your computer and running the command:
+
+    hackrf_info
+
+Which should give you something like:
+
+    Found HackRF board.
+    Board ID Number: 2 (HackRF One)
+    Firmware Version: git-44df9d1
+    Part ID Number: 0x00674353 0x00674353
+    Serial Number: 0x00000000 0x00000000 0x457863c8 0x2f3d3a1f
+
+It's a nice way of verifying that everything worked right.
+
+## Osmocom SDR
+
+The last part of our recipe is the `gr-osmosdr` repo.  Start again by checking
+it out:
+
+    git clone git://git.osmocom.org/gr-osmosdr
+    cd gr-osmosdr
+
+Same deal as past `cmake` configurations, make sure it has all the prereqs to
+build correctly.
+
+    cmake .. -DENABLE_PYTHON=ON
+
+If configuration went off without a hitch, build and install it:
+
+    make
+    sudo make install
+
+And we should be ready to go!
+
+# Test drive
+
+First lets just test we can launch the gui.
+
+    cd gnuradio #wherever you checked out the gnuradio project
+
+This is how I launch the gui:
+
+    python grc/scripts/gnuradio-companion
+
+The graphical environment should startup.  If it doesnt, you did something wrong
+:(  Send me a note and I'll try to help you figure out what.
+
+## FM radio
+
+The "hello world" of a SDR platform is a FM radio tuner.  Ettus released a very
+nice video tutorial on how to use this
+[here](http://www.ettus.com/kb/detail/sdr-for-beginners-building-an-fm-receiver-with-the-usrp-and-gnu-radio).
+I strongly recommend going through the process.
+
+I have adapted their example for HackRF and seems to work on my machine.
+
+Download the example
+[here](https://gist.github.com/machinaut/addf3438ef0c1a9cad38).  Feel free to
+leave comments or issues there and I'll do my best to help!
+
+To run, do as above:
+
+    cd gnuradio # or wherever you checked out the repo
+    python grc/scripts/gnuradio-companion
+
+Then in the gui, open the `fm_example.grc` file from the gist.
+
+## Closing thoughts
+
+This was very much a rough draft written quickly, but is also a living document!
+
+If you send me things to make it better I'll do my best.
+
+Also maybe this needs to just be adapted and put in the HackRF wiki.
