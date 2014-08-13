@@ -52,7 +52,11 @@ you're missing some prereqs.  Closely look for what it needs, and install that
 via `brew install` if possible (also send me a note and I'll update this!)
 
     cmake .. -DENABLE_GR_ANALOG=ON -DENABLE_GR_FFT=ON -DENABLE_GR_FILTER=ON \
-    -DENABLE_GR_UHD=ON -DENABLE_GR_QTGUI=ON -DENABLE_VOLK=ON -DENABLE_GR_WXGUI=ON
+    -DENABLE_GR_QTGUI=ON -DENABLE_VOLK=ON -DENABLE_GR_WXGUI=ON
+
+(EDIT: it turns out you don't actually need UHD for HackRF.  I've removed the
+`-DENABLE_GR_UHD=ON` from the above command, but add it back if you want to
+build UHD anyways.)
 
 After you get prerequisites sorted out and successfully run cmake, then it's
 time to build and install. (The test line is optional, but useful for
