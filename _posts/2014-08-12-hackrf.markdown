@@ -27,7 +27,7 @@ before you get started.
 
 I found I needed to install quite a few packages to build everything I needed:
 
-    brew install boost doxygen fftw qt4 pyqt qwt pyqwt swig cmake wxpython
+    brew install boost doxygen fftw qt4 pyqt qwt pyqwt swig cmake wxpython pygtk
 
 Also I found issues when using the homebrew python that were fixed by going back
 to my system python install.  Not required, but maybe give it a shot if your
@@ -121,6 +121,8 @@ it out:
 Same deal as past `cmake` configurations, make sure it has all the prereqs to
 build correctly.
 
+    mkdir build
+    cd build
     cmake .. -DENABLE_PYTHON=ON
 
 If configuration went off without a hitch, build and install it:
